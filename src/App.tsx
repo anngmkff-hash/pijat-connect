@@ -18,6 +18,10 @@ import RegisterMitra from "./pages/auth/RegisterMitra";
 // Customer Pages
 import CustomerDashboard from "./pages/customer/Dashboard";
 
+// Admin Pages
+import AdminDashboard from "./pages/admin/Dashboard";
+import MitraVerification from "./pages/admin/MitraVerification";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -44,9 +48,26 @@ const App = () => (
               }
             />
 
+            {/* Admin Routes */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/mitra-verification"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <MitraVerification />
+                </ProtectedRoute>
+              }
+            />
+
             {/* Placeholder routes for future implementation */}
             <Route path="/mitra" element={<ProtectedRoute allowedRoles={["mitra"]}><div>Mitra Dashboard (Coming Soon)</div></ProtectedRoute>} />
-            <Route path="/admin" element={<ProtectedRoute allowedRoles={["admin"]}><div>Admin Dashboard (Coming Soon)</div></ProtectedRoute>} />
 
             {/* Catch-all 404 */}
             <Route path="*" element={<NotFound />} />
