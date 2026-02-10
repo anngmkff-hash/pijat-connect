@@ -21,6 +21,13 @@ import CustomerDashboard from "./pages/customer/Dashboard";
 // Admin Pages
 import AdminDashboard from "./pages/admin/Dashboard";
 import MitraVerification from "./pages/admin/MitraVerification";
+import AdminUsers from "./pages/admin/Users";
+import AdminServices from "./pages/admin/Services";
+import AdminOrders from "./pages/admin/Orders";
+import AdminFinance from "./pages/admin/Finance";
+import AdminPromos from "./pages/admin/Promos";
+import AdminReports from "./pages/admin/Reports";
+import AdminSettings from "./pages/admin/Settings";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +61,62 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={["admin"]}>
                   <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminUsers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/services"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminServices />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminOrders />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/finance"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminFinance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/promos"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminPromos />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/reports"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminReports />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminSettings />
                 </ProtectedRoute>
               }
             />
