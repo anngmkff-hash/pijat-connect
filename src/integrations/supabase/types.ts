@@ -80,6 +80,56 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          address: string | null
+          created_at: string
+          customer_id: string
+          id: string
+          mitra_id: string | null
+          notes: string | null
+          scheduled_at: string | null
+          service_id: string | null
+          status: string
+          total_price: number
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          customer_id: string
+          id?: string
+          mitra_id?: string | null
+          notes?: string | null
+          scheduled_at?: string | null
+          service_id?: string | null
+          status?: string
+          total_price?: number
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          customer_id?: string
+          id?: string
+          mitra_id?: string | null
+          notes?: string | null
+          scheduled_at?: string | null
+          service_id?: string | null
+          status?: string
+          total_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           address: string | null
