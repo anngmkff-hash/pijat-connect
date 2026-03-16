@@ -140,8 +140,8 @@ export const useAdminReports = () => {
           : { data: [] },
       ]);
 
-      const profileMap = new Map(((profilesRes as any).data || []).map((p: any) => [p.user_id, p.full_name]));
-      const mitraMap = new Map(
+      const profileMap = new Map<string, string>(((profilesRes as any).data || []).map((p: any) => [p.user_id, p.full_name]));
+      const mitraMap = new Map<string, { rating: number }>(
         ((mitraProfilesRes as any).data || []).map((m: any) => [
           m.user_id,
           { rating: Number(m.rating_average) || 0 },
