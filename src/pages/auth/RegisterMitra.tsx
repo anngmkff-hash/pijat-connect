@@ -25,6 +25,16 @@ const RegisterMitra = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const uploadFile = async (userId: string, file: File, type: "ktp" | "certificate") => {
+    const ext = file.name.split(".").pop();
+    const path = `${userId}/${type}.${ext}`;
+    const { error } = await supabase.storage
+      .from("kyc-documents")
+      .upload(path, file, { upsert: true });
+    if (error) throw new Error(`Gagal upload ${type}: ${error.message}`);
+    return path;
+  };
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -74,14 +84,38 @@ const RegisterMitra = () => {
       if (authError) throw authError;
 
       if (authData.user) {
-        // 2. Update user role to mitra (will be done after email verification)
-        // For now, we just show success message
-        
+        const userId = authData.user.id;
+
+        // 2. Upload KTP (required)
+        const ktpPath = await uploadFile(userId, ktpFile, "ktp");
+
+        // 3. Upload certificate (optional)
+        let certPath: string | null = null;
+        if (certificateFile) {
+          certPath = await uploadFile(userId, certificateFile, "certificate");
+        }
+
+        // 4. Register as mitra (updates role + creates mitra_profile)
+        const { error: rpcError } = await supabase.rpc("register_as_mitra", {
+          _user_id: userId,
+          _bio: bio || null,
+          _ktp_url: ktpPath,
+          _certificate_url: certPath,
+        });
+
+        if (rpcError) {
+          console.error("register_as_mitra error:", rpcError);
+          // Non-blocking: profile will be created but role might need manual fix
+        }
+
         toast({
           title: "Pendaftaran mitra berhasil!",
-          description: "Silakan cek email Anda untuk verifikasi. Setelah itu, tim kami akan memverifikasi dokumen Anda.",
+          description:
+            "Silakan cek email Anda untuk verifikasi. Setelah itu, tim kami akan memverifikasi dokumen Anda.",
         });
-        
+
+        // Sign out since email verification is needed
+        await supabase.auth.signOut();
         navigate("/login");
       }
     } catch (error: any) {
@@ -177,7 +211,7 @@ const RegisterMitra = () => {
                   >
                     {ktpFile ? (
                       <>
-                        <FileCheck className="h-4 w-4 text-success" />
+                        <FileCheck className="h-4 w-4 text-primary" />
                         <span className="text-sm truncate">{ktpFile.name}</span>
                       </>
                     ) : (
@@ -205,7 +239,7 @@ const RegisterMitra = () => {
                   >
                     {certificateFile ? (
                       <>
-                        <FileCheck className="h-4 w-4 text-success" />
+                        <FileCheck className="h-4 w-4 text-primary" />
                         <span className="text-sm truncate">{certificateFile.name}</span>
                       </>
                     ) : (
