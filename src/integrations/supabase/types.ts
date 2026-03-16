@@ -290,6 +290,15 @@ export type Database = {
         }
         Returns: boolean
       }
+      register_as_mitra: {
+        Args: {
+          _bio?: string
+          _certificate_url?: string
+          _ktp_url?: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "mitra" | "customer"
