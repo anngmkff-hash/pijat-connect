@@ -18,6 +18,9 @@ import RegisterMitra from "./pages/auth/RegisterMitra";
 // Customer Pages
 import CustomerDashboard from "./pages/customer/Dashboard";
 
+// Mitra Pages
+import MitraDashboard from "./pages/mitra/Dashboard";
+
 // Admin Pages
 import AdminDashboard from "./pages/admin/Dashboard";
 import MitraVerification from "./pages/admin/MitraVerification";
@@ -130,7 +133,7 @@ const App = () => (
             />
 
             {/* Placeholder routes for future implementation */}
-            <Route path="/mitra" element={<ProtectedRoute allowedRoles={["mitra"]}><div>Mitra Dashboard (Coming Soon)</div></ProtectedRoute>} />
+            <Route path="/mitra" element={<ProtectedRoute allowedRoles={["mitra"]}><MitraDashboard /></ProtectedRoute>} />
 
             {/* Catch-all 404 */}
             <Route path="*" element={<NotFound />} />
