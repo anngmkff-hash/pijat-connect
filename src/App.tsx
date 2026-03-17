@@ -130,7 +130,7 @@ const App = () => (
             />
 
             {/* Placeholder routes for future implementation */}
-            <Route path="/mitra" element={<ProtectedRoute allowedRoles={["mitra"]}><div>Mitra Dashboard (Coming Soon)</div></ProtectedRoute>} />
+            <Route path="/mitra" element={<ProtectedRoute allowedRoles={["mitra"]}><MitraDashboard /></ProtectedRoute>} />
 
             {/* Catch-all 404 */}
             <Route path="*" element={<NotFound />} />
