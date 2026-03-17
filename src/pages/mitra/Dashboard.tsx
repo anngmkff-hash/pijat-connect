@@ -179,8 +179,8 @@ const MitraDashboard = () => {
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-green-100 flex items-center justify-center">
-                  <TrendingUp className="h-5 w-5 text-green-600" />
+                <div className="h-10 w-10 rounded-lg bg-accent flex items-center justify-center">
+                  <TrendingUp className="h-5 w-5 text-accent-foreground" />
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-foreground">{completedOrders}</p>

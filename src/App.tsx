@@ -18,6 +18,9 @@ import RegisterMitra from "./pages/auth/RegisterMitra";
 // Customer Pages
 import CustomerDashboard from "./pages/customer/Dashboard";
 
+// Mitra Pages
+import MitraDashboard from "./pages/mitra/Dashboard";
+
 // Admin Pages
 import AdminDashboard from "./pages/admin/Dashboard";
 import MitraVerification from "./pages/admin/MitraVerification";
