@@ -337,62 +337,140 @@ const MitraDashboard = () => {
             </Card>
           </TabsContent>
 
+          {/* Incoming Orders Tab */}
+          <TabsContent value="incoming" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Pesanan Masuk</CardTitle>
+                <CardDescription>Pesanan dari pelanggan yang belum diambil mitra</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {incomingOrders.length === 0 ? (
+                  <p className="text-center py-8 text-muted-foreground">Tidak ada pesanan masuk saat ini</p>
+                ) : (
+                  <div className="space-y-4">
+                    {incomingOrders.map((order) => (
+                      <div key={order.id} className="border border-border rounded-lg p-4 space-y-3">
+                        <div className="flex items-start justify-between">
+                          <div className="space-y-1">
+                            <p className="font-semibold text-foreground">{(order as any).services?.name ?? "Layanan"}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {order.scheduled_at
+                                ? new Date(order.scheduled_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })
+                                : "Jadwal belum ditentukan"}
+                            </p>
+                          </div>
+                          <p className="text-lg font-bold text-primary">{formatCurrency(Number(order.total_price))}</p>
+                        </div>
+                        {order.address && (
+                          <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
+                            <span>{order.address}</span>
+                          </div>
+                        )}
+                        {order.notes && (
+                          <p className="text-sm text-muted-foreground bg-muted/50 rounded p-2">📝 {order.notes}</p>
+                        )}
+                        <div className="flex gap-2 pt-1">
+                          <Button
+                            size="sm"
+                            className="flex-1"
+                            onClick={() => acceptOrder.mutate(order.id)}
+                            disabled={acceptOrder.isPending}
+                          >
+                            <CheckCircle className="h-4 w-4 mr-1.5" />
+                            Terima Pesanan
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* Orders Tab */}
           <TabsContent value="orders" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Semua Pesanan</CardTitle>
-                <CardDescription>Daftar seluruh pesanan Anda</CardDescription>
+                <CardTitle className="text-lg">Pesanan Saya</CardTitle>
+                <CardDescription>Pesanan yang sudah Anda terima</CardDescription>
               </CardHeader>
               <CardContent>
                 {orders.length === 0 ? (
                   <p className="text-center py-8 text-muted-foreground">Belum ada pesanan</p>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Tanggal</TableHead>
-                          <TableHead>Layanan</TableHead>
-                          <TableHead>Jadwal</TableHead>
-                          <TableHead>Alamat</TableHead>
-                          <TableHead>Harga</TableHead>
-                          <TableHead>Status</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {orders.map((order) => {
-                          const s = statusLabel[order.status] ?? { label: order.status, variant: "outline" as const };
-                          return (
-                            <TableRow key={order.id}>
-                              <TableCell className="text-sm">
-                                {new Date(order.created_at).toLocaleDateString("id-ID")}
-                              </TableCell>
-                              <TableCell className="text-sm">
-                                {(order as any).services?.name ?? "-"}
-                              </TableCell>
-                              <TableCell className="text-sm">
-                                {order.scheduled_at
-                                  ? new Date(order.scheduled_at).toLocaleString("id-ID", {
-                                      dateStyle: "short",
-                                      timeStyle: "short",
-                                    })
-                                  : "-"}
-                              </TableCell>
-                              <TableCell className="text-sm max-w-[200px] truncate">
-                                {order.address ?? "-"}
-                              </TableCell>
-                              <TableCell className="text-sm font-medium">
-                                {formatCurrency(Number(order.total_price))}
-                              </TableCell>
-                              <TableCell>
+                  <div className="space-y-4">
+                    {orders.map((order) => {
+                      const s = statusLabel[order.status] ?? { label: order.status, variant: "outline" as const };
+                      return (
+                        <div key={order.id} className="border border-border rounded-lg p-4 space-y-3">
+                          <div className="flex items-start justify-between">
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-2">
+                                <p className="font-semibold text-foreground">{(order as any).services?.name ?? "Layanan"}</p>
                                 <Badge variant={s.variant}>{s.label}</Badge>
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })}
-                      </TableBody>
-                    </Table>
+                              </div>
+                              <p className="text-sm text-muted-foreground">
+                                {order.scheduled_at
+                                  ? new Date(order.scheduled_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })
+                                  : new Date(order.created_at).toLocaleDateString("id-ID")}
+                              </p>
+                            </div>
+                            <p className="text-lg font-bold text-primary">{formatCurrency(Number(order.total_price))}</p>
+                          </div>
+                          {order.address && (
+                            <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                              <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
+                              <span>{order.address}</span>
+                            </div>
+                          )}
+                          {/* Action buttons based on status */}
+                          {order.status === "confirmed" && (
+                            <div className="flex gap-2 pt-1">
+                              <Button
+                                size="sm"
+                                onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "on_the_way" })}
+                                disabled={updateOrderStatus.isPending}
+                              >
+                                <Navigation className="h-4 w-4 mr-1.5" />
+                                Dalam Perjalanan
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => rejectOrder.mutate(order.id)}
+                                disabled={rejectOrder.isPending}
+                              >
+                                <XCircle className="h-4 w-4 mr-1.5" />
+                                Batalkan
+                              </Button>
+                            </div>
+                          )}
+                          {order.status === "on_the_way" && (
+                            <Button
+                              size="sm"
+                              onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "in_progress" })}
+                              disabled={updateOrderStatus.isPending}
+                            >
+                              <Play className="h-4 w-4 mr-1.5" />
+                              Mulai Layanan
+                            </Button>
+                          )}
+                          {order.status === "in_progress" && (
+                            <Button
+                              size="sm"
+                              onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "completed" })}
+                              disabled={updateOrderStatus.isPending}
+                            >
+                              <CheckCircle className="h-4 w-4 mr-1.5" />
+                              Selesaikan
+                            </Button>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </CardContent>
