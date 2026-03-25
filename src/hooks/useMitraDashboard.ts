@@ -240,10 +240,13 @@ export const useMitraDashboard = () => {
     return months;
   })();
 
+  const incomingOrders = incomingOrdersQuery.data ?? [];
+
   return {
     profile: profileQuery.data,
     userProfile: userProfileQuery.data,
     orders,
+    incomingOrders,
     totalOrders,
     completedOrders,
     totalRevenue,
@@ -255,5 +258,8 @@ export const useMitraDashboard = () => {
     updateWorkingHours,
     updateOffDays,
     updateServiceRadius,
+    acceptOrder,
+    rejectOrder,
+    updateOrderStatus,
   };
 };
