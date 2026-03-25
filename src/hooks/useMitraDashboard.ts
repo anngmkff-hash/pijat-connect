@@ -36,6 +36,7 @@ export const useMitraDashboard = () => {
     enabled: !!user?.id,
   });
 
+  // Orders assigned to this mitra
   const ordersQuery = useQuery({
     queryKey: ["mitra-orders", user?.id],
     queryFn: async () => {
@@ -48,6 +49,87 @@ export const useMitraDashboard = () => {
       return data ?? [];
     },
     enabled: !!user?.id,
+  });
+
+  // Incoming unassigned pending orders
+  const incomingOrdersQuery = useQuery({
+    queryKey: ["mitra-incoming-orders", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("orders")
+        .select("*, services(name, base_price, duration_minutes)")
+        .is("mitra_id", null)
+        .eq("status", "pending")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+    enabled: !!user?.id,
+  });
+
+  // Accept order (claim + set confirmed)
+  const acceptOrder = useMutation({
+    mutationFn: async (orderId: string) => {
+      const { error } = await supabase
+        .from("orders")
+        .update({ mitra_id: user!.id, status: "confirmed" })
+        .eq("id", orderId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mitra-orders"] });
+      queryClient.invalidateQueries({ queryKey: ["mitra-incoming-orders"] });
+      toast({ title: "Pesanan diterima!", description: "Pesanan berhasil dikonfirmasi" });
+    },
+    onError: () => {
+      toast({ title: "Gagal menerima pesanan", variant: "destructive" });
+    },
+  });
+
+  // Reject/decline order (just skip it for this mitra - no DB change needed for unassigned)
+  // For assigned orders, set status to cancelled
+  const rejectOrder = useMutation({
+    mutationFn: async (orderId: string) => {
+      // For orders already assigned to this mitra
+      const { error } = await supabase
+        .from("orders")
+        .update({ status: "cancelled" })
+        .eq("id", orderId)
+        .eq("mitra_id", user!.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mitra-orders"] });
+      queryClient.invalidateQueries({ queryKey: ["mitra-incoming-orders"] });
+      toast({ title: "Pesanan ditolak" });
+    },
+    onError: () => {
+      toast({ title: "Gagal menolak pesanan", variant: "destructive" });
+    },
+  });
+
+  // Update order status (e.g. on_the_way, in_progress, completed)
+  const updateOrderStatus = useMutation({
+    mutationFn: async ({ orderId, status }: { orderId: string; status: string }) => {
+      const { error } = await supabase
+        .from("orders")
+        .update({ status })
+        .eq("id", orderId)
+        .eq("mitra_id", user!.id);
+      if (error) throw error;
+    },
+    onSuccess: (_, { status }) => {
+      queryClient.invalidateQueries({ queryKey: ["mitra-orders"] });
+      const labels: Record<string, string> = {
+        on_the_way: "Dalam perjalanan",
+        in_progress: "Sedang berlangsung",
+        completed: "Pesanan selesai!",
+      };
+      toast({ title: labels[status] ?? "Status diperbarui" });
+    },
+    onError: () => {
+      toast({ title: "Gagal memperbarui status", variant: "destructive" });
+    },
   });
 
   const toggleAvailability = useMutation({
