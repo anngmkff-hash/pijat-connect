@@ -38,6 +38,7 @@ const MitraDashboard = () => {
     profile,
     userProfile,
     orders,
+    incomingOrders,
     totalOrders,
     completedOrders,
     totalRevenue,
@@ -49,6 +50,9 @@ const MitraDashboard = () => {
     updateWorkingHours,
     updateOffDays,
     updateServiceRadius,
+    acceptOrder,
+    rejectOrder,
+    updateOrderStatus,
   } = useMitraDashboard();
 
   const [workStart, setWorkStart] = useState("");
