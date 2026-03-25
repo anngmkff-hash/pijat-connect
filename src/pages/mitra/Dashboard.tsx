@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Leaf, LogOut, Loader2, TrendingUp, DollarSign, ClipboardList, Clock, Star, MapPin, Calendar } from "lucide-react";
+import { Leaf, LogOut, Loader2, TrendingUp, DollarSign, ClipboardList, Clock, Star, MapPin, Calendar, CheckCircle, XCircle, Navigation, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
