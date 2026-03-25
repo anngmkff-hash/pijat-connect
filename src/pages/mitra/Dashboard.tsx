@@ -229,7 +229,12 @@ const MitraDashboard = () => {
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList>
             <TabsTrigger value="overview">Ringkasan</TabsTrigger>
-            <TabsTrigger value="orders">Pesanan ({pendingOrders + inProgressOrders})</TabsTrigger>
+            <TabsTrigger value="incoming">
+              Pesanan Masuk {incomingOrders.length > 0 && (
+                <Badge variant="destructive" className="ml-1.5 h-5 min-w-5 px-1 text-xs">{incomingOrders.length}</Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger value="orders">Pesanan Saya ({pendingOrders + inProgressOrders})</TabsTrigger>
             <TabsTrigger value="settings">Ketersediaan</TabsTrigger>
           </TabsList>
 
