@@ -76,13 +76,13 @@ export const useBooking = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["customer-orders"] });
       toast({
         title: "Pesanan Berhasil! 🎉",
-        description: "Pesanan Anda sedang menunggu konfirmasi mitra.",
+        description: "Lanjutkan ke pembayaran.",
       });
-      navigate("/dashboard");
+      navigate(`/payment?order=${data.id}`);
     },
     onError: (error: Error) => {
       toast({
