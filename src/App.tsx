@@ -68,6 +68,14 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute allowedRoles={["customer"]}>
+                  <CustomerPayment />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Admin Routes */}
             <Route
@@ -139,6 +147,14 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={["admin"]}>
                   <MitraVerification />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/payments"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminPayments />
                 </ProtectedRoute>
               }
             />
