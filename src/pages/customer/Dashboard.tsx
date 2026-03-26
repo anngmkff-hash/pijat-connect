@@ -1,9 +1,10 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useBooking } from "@/hooks/useBooking";
+import { usePayment } from "@/hooks/usePayment";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Leaf, LogOut, User, Calendar, History, Clock, Loader2 } from "lucide-react";
+import { Leaf, LogOut, User, Calendar, History, Clock, Loader2, CreditCard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
@@ -134,6 +135,13 @@ const CustomerDashboard = () => {
                       <span className="text-sm font-semibold text-foreground shrink-0">
                         Rp {Number(order.total_price).toLocaleString("id-ID")}
                       </span>
+                      {order.status === "pending" && (
+                        <Link to={`/payment?order=${order.id}`}>
+                          <Button size="sm" variant="outline" className="shrink-0">
+                            <CreditCard className="h-3 w-3 mr-1" /> Bayar
+                          </Button>
+                        </Link>
+                      )}
                     </div>
                   );
                 })}
