@@ -18,6 +18,7 @@ import RegisterMitra from "./pages/auth/RegisterMitra";
 // Customer Pages
 import CustomerDashboard from "./pages/customer/Dashboard";
 import Booking from "./pages/customer/Booking";
+import CustomerPayment from "./pages/customer/Payment";
 
 // Mitra Pages
 import MitraDashboard from "./pages/mitra/Dashboard";
@@ -32,6 +33,7 @@ import AdminFinance from "./pages/admin/Finance";
 import AdminPromos from "./pages/admin/Promos";
 import AdminReports from "./pages/admin/Reports";
 import AdminSettings from "./pages/admin/Settings";
+import AdminPayments from "./pages/admin/Payments";
 
 const queryClient = new QueryClient();
 
