@@ -130,6 +130,56 @@ export type Database = {
           },
         ]
       }
+      payments: {
+        Row: {
+          admin_notes: string | null
+          amount: number
+          confirmed_at: string | null
+          created_at: string
+          customer_id: string
+          id: string
+          order_id: string
+          payment_method: string
+          payment_proof_url: string | null
+          payment_status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          amount?: number
+          confirmed_at?: string | null
+          created_at?: string
+          customer_id: string
+          id?: string
+          order_id: string
+          payment_method?: string
+          payment_proof_url?: string | null
+          payment_status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          amount?: number
+          confirmed_at?: string | null
+          created_at?: string
+          customer_id?: string
+          id?: string
+          order_id?: string
+          payment_method?: string
+          payment_proof_url?: string | null
+          payment_status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           address: string | null
