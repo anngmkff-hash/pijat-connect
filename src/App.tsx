@@ -19,6 +19,7 @@ import RegisterMitra from "./pages/auth/RegisterMitra";
 import CustomerDashboard from "./pages/customer/Dashboard";
 import Booking from "./pages/customer/Booking";
 import CustomerPayment from "./pages/customer/Payment";
+import OrderHistory from "./pages/customer/OrderHistory";
 
 // Mitra Pages
 import MitraDashboard from "./pages/mitra/Dashboard";
@@ -73,6 +74,14 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={["customer"]}>
                   <CustomerPayment />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <ProtectedRoute allowedRoles={["customer"]}>
+                  <OrderHistory />
                 </ProtectedRoute>
               }
             />
