@@ -428,46 +428,49 @@ const MitraDashboard = () => {
                             </div>
                           )}
                           {/* Action buttons based on status */}
-                          {order.status === "confirmed" && (
-                            <div className="flex gap-2 pt-1">
+                          {["confirmed", "on_the_way", "in_progress"].includes(order.status) && (
+                            <div className="flex flex-wrap gap-2 pt-1">
+                              {order.status === "confirmed" && (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "on_the_way" })}
+                                    disabled={updateOrderStatus.isPending}
+                                  >
+                                    <Navigation className="h-4 w-4 mr-1.5" />
+                                    Dalam Perjalanan
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={() => rejectOrder.mutate(order.id)}
+                                    disabled={rejectOrder.isPending}
+                                  >
+                                    <XCircle className="h-4 w-4 mr-1.5" />
+                                    Batalkan
+                                  </Button>
+                                </>
+                              )}
+                              {order.status === "on_the_way" && (
+                                <Button
+                                  size="sm"
+                                  onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "in_progress" })}
+                                  disabled={updateOrderStatus.isPending}
+                                >
+                                  <Play className="h-4 w-4 mr-1.5" />
+                                  Mulai Layanan
+                                </Button>
+                              )}
                               <Button
                                 size="sm"
-                                onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "on_the_way" })}
+                                variant={order.status === "in_progress" ? "default" : "outline"}
+                                onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "completed" })}
                                 disabled={updateOrderStatus.isPending}
                               >
-                                <Navigation className="h-4 w-4 mr-1.5" />
-                                Dalam Perjalanan
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="destructive"
-                                onClick={() => rejectOrder.mutate(order.id)}
-                                disabled={rejectOrder.isPending}
-                              >
-                                <XCircle className="h-4 w-4 mr-1.5" />
-                                Batalkan
+                                <CheckCircle className="h-4 w-4 mr-1.5" />
+                                Selesaikan
                               </Button>
                             </div>
-                          )}
-                          {order.status === "on_the_way" && (
-                            <Button
-                              size="sm"
-                              onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "in_progress" })}
-                              disabled={updateOrderStatus.isPending}
-                            >
-                              <Play className="h-4 w-4 mr-1.5" />
-                              Mulai Layanan
-                            </Button>
-                          )}
-                          {order.status === "in_progress" && (
-                            <Button
-                              size="sm"
-                              onClick={() => updateOrderStatus.mutate({ orderId: order.id, status: "completed" })}
-                              disabled={updateOrderStatus.isPending}
-                            >
-                              <CheckCircle className="h-4 w-4 mr-1.5" />
-                              Selesaikan
-                            </Button>
                           )}
                         </div>
                       );
