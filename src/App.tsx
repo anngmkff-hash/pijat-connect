@@ -77,6 +77,14 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/orders"
+              element={
+                <ProtectedRoute allowedRoles={["customer"]}>
+                  <OrderHistory />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Admin Routes */}
             <Route
