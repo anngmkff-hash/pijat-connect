@@ -73,7 +73,7 @@ const CustomerDashboard = () => {
               <CardDescription>{customerOrders.length} pesanan total</CardDescription>
             </CardHeader>
             <CardContent>
-              <Link to="/booking">
+              <Link to="/orders">
                 <Button variant="outline" className="w-full">Lihat Riwayat</Button>
               </Link>
             </CardContent>
