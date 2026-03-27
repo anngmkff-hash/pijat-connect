@@ -107,50 +107,90 @@ const Booking = () => {
 
         {/* Step 0: Service Selection */}
         {step === 0 && (
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-2xl font-bold text-foreground">Pilih Layanan</h2>
-              <p className="text-muted-foreground">Pilih jenis pijat yang Anda inginkan</p>
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-foreground">Pilih Layanan Pijat</h2>
+              <p className="text-muted-foreground mt-1">Temukan layanan terbaik untuk relaksasi Anda</p>
             </div>
             {loadingServices ? (
-              <div className="flex justify-center py-12">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <div className="flex flex-col items-center justify-center py-16 gap-3">
+                <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                <p className="text-sm text-muted-foreground">Memuat layanan...</p>
               </div>
             ) : (
-              <div className="grid gap-3">
-                {services.map((s) => (
-                  <Card
-                    key={s.id}
-                    className={cn(
-                      "cursor-pointer transition-all hover:shadow-md",
-                      selectedService === s.id && "ring-2 ring-primary border-primary"
-                    )}
-                    onClick={() => setSelectedService(s.id)}
-                  >
-                    <CardContent className="flex items-center gap-4 p-4">
-                      <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center text-2xl shrink-0">
-                        {s.icon || "💆"}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-foreground">{s.name}</h3>
-                        <p className="text-sm text-muted-foreground line-clamp-1">{s.description}</p>
-                        <div className="flex items-center gap-3 mt-1">
-                          <Badge variant="secondary" className="text-xs">
-                            <Clock className="h-3 w-3 mr-1" />
-                            {s.duration_minutes} menit
-                          </Badge>
+              <div className="grid gap-4">
+                {services.map((s) => {
+                  const isSelected = selectedService === s.id;
+                  return (
+                    <Card
+                      key={s.id}
+                      className={cn(
+                        "cursor-pointer transition-all duration-300 group relative overflow-hidden",
+                        "hover:shadow-lg hover:-translate-y-0.5",
+                        isSelected
+                          ? "ring-2 ring-primary border-primary bg-accent/40 shadow-md"
+                          : "hover:border-primary/40"
+                      )}
+                      onClick={() => setSelectedService(s.id)}
+                    >
+                      {/* Selected indicator bar */}
+                      <div className={cn(
+                        "absolute left-0 top-0 bottom-0 w-1 rounded-l-lg transition-all duration-300",
+                        isSelected ? "bg-primary" : "bg-transparent group-hover:bg-primary/30"
+                      )} />
+
+                      <CardContent className="flex items-center gap-4 p-5 pl-6">
+                        <div className={cn(
+                          "h-14 w-14 rounded-xl flex items-center justify-center text-2xl shrink-0 transition-all duration-300",
+                          isSelected
+                            ? "bg-primary text-primary-foreground shadow-md scale-105"
+                            : "bg-primary/10 group-hover:bg-primary/20"
+                        )}>
+                          {s.icon || "💆"}
                         </div>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <p className="font-bold text-primary text-lg">
-                          Rp {Number(s.base_price).toLocaleString("id-ID")}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                        <div className="flex-1 min-w-0">
+                          <h3 className={cn(
+                            "font-semibold text-foreground text-base transition-colors",
+                            isSelected && "text-primary"
+                          )}>
+                            {s.name}
+                          </h3>
+                          <p className="text-sm text-muted-foreground line-clamp-2 mt-0.5">{s.description}</p>
+                          <div className="flex items-center gap-2 mt-2">
+                            <Badge variant="secondary" className="text-xs font-medium px-2.5 py-0.5">
+                              <Clock className="h-3 w-3 mr-1" />
+                              {s.duration_minutes} menit
+                            </Badge>
+                          </div>
+                        </div>
+                        <div className="text-right shrink-0 flex flex-col items-end gap-2">
+                          <p className={cn(
+                            "font-bold text-lg transition-colors",
+                            isSelected ? "text-primary" : "text-foreground"
+                          )}>
+                            Rp {Number(s.base_price).toLocaleString("id-ID")}
+                          </p>
+                          <div className={cn(
+                            "h-6 w-6 rounded-full border-2 flex items-center justify-center transition-all duration-300",
+                            isSelected
+                              ? "border-primary bg-primary"
+                              : "border-muted-foreground/30 group-hover:border-primary/50"
+                          )}>
+                            {isSelected && <CheckCircle2 className="h-4 w-4 text-primary-foreground" />}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
                 {services.length === 0 && (
-                  <p className="text-center py-8 text-muted-foreground">Belum ada layanan tersedia.</p>
+                  <div className="text-center py-16 space-y-3">
+                    <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mx-auto">
+                      <Leaf className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                    <p className="text-muted-foreground font-medium">Belum ada layanan tersedia</p>
+                    <p className="text-sm text-muted-foreground/70">Layanan akan segera hadir, silakan cek kembali nanti.</p>
+                  </div>
                 )}
               </div>
             )}
