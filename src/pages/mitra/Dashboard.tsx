@@ -27,6 +27,7 @@ const DAYS_OF_WEEK = [
 const statusLabel: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
   pending: { label: "Menunggu", variant: "outline" },
   confirmed: { label: "Dikonfirmasi", variant: "secondary" },
+  on_the_way: { label: "Dalam Perjalanan", variant: "secondary" },
   in_progress: { label: "Berlangsung", variant: "default" },
   completed: { label: "Selesai", variant: "default" },
   cancelled: { label: "Dibatalkan", variant: "destructive" },
