@@ -88,7 +88,9 @@ const CustomerDashboard = () => {
               <CardDescription>Kelola data akun Anda</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full" disabled>Edit Profil</Button>
+              <Link to="/profile">
+                <Button variant="outline" className="w-full">Edit Profil</Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
