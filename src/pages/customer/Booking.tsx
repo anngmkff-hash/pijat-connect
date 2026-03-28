@@ -169,7 +169,7 @@ const Booking = () => {
                             ? "bg-primary text-primary-foreground shadow-md scale-105"
                             : "bg-primary/10 group-hover:bg-primary/20"
                         )}>
-                          {s.icon || "💆"}
+                          {getServiceIcon(s.icon)}
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className={cn(
@@ -338,7 +338,7 @@ const Booking = () => {
               <CardContent className="p-6 space-y-4">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-lg bg-primary/10 flex items-center justify-center text-2xl">
-                    {service.icon || "💆"}
+                    {getServiceIcon(service.icon)}
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground text-lg">{service.name}</h3>
