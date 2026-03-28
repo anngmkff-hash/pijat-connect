@@ -15,8 +15,31 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import {
   Leaf, ArrowLeft, CalendarIcon, Clock, MapPin, CheckCircle2,
-  ChevronRight, Loader2, StickyNote,
+  ChevronRight, Loader2, StickyNote, Flower2, Sparkles, Baby, TreePalm,
+  Hand, Heart, Droplets, Sun, Star, Zap,
 } from "lucide-react";
+
+const ICON_MAP: Record<string, React.ReactNode> = {
+  flower2: <Flower2 className="h-7 w-7" />,
+  sparkles: <Sparkles className="h-7 w-7" />,
+  baby: <Baby className="h-7 w-7" />,
+  leaf: <Leaf className="h-7 w-7" />,
+  hand: <Hand className="h-7 w-7" />,
+  heart: <Heart className="h-7 w-7" />,
+  droplets: <Droplets className="h-7 w-7" />,
+  sun: <Sun className="h-7 w-7" />,
+  star: <Star className="h-7 w-7" />,
+  zap: <Zap className="h-7 w-7" />,
+  tree: <TreePalm className="h-7 w-7" />,
+};
+
+const getServiceIcon = (icon: string | null) => {
+  if (!icon) return <Leaf className="h-7 w-7" />;
+  if (ICON_MAP[icon.toLowerCase()]) return ICON_MAP[icon.toLowerCase()];
+  // If it's an emoji, return as-is
+  if (/\p{Emoji}/u.test(icon)) return <span className="text-2xl">{icon}</span>;
+  return <Leaf className="h-7 w-7" />;
+};
 
 const TIME_SLOTS = [
   "08:00", "09:00", "10:00", "11:00", "12:00",
@@ -146,7 +169,7 @@ const Booking = () => {
                             ? "bg-primary text-primary-foreground shadow-md scale-105"
                             : "bg-primary/10 group-hover:bg-primary/20"
                         )}>
-                          {s.icon || "💆"}
+                          {getServiceIcon(s.icon)}
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className={cn(
@@ -315,7 +338,7 @@ const Booking = () => {
               <CardContent className="p-6 space-y-4">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-lg bg-primary/10 flex items-center justify-center text-2xl">
-                    {service.icon || "💆"}
+                    {getServiceIcon(service.icon)}
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground text-lg">{service.name}</h3>
