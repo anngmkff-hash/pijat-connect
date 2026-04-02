@@ -245,6 +245,18 @@ const OrderHistory = () => {
                             </Button>
                           </Link>
                         )}
+                        {order.status === "completed" && !hasReview(order.id) && order.mitra_id && (
+                          <Button size="sm" variant="secondary" onClick={() => setReviewOrder(order)}>
+                            <Star className="h-4 w-4 mr-1.5" />
+                            Beri Review
+                          </Button>
+                        )}
+                        {order.status === "completed" && hasReview(order.id) && (
+                          <Badge variant="outline" className="flex items-center gap-1 text-amber-600">
+                            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                            Sudah Direview
+                          </Badge>
+                        )}
                         {order.status === "completed" && (
                           <Link to="/booking">
                             <Button size="sm" variant="outline">
@@ -252,8 +264,7 @@ const OrderHistory = () => {
                             </Button>
                           </Link>
                         )}
-                      </div>
-                    </div>
+                        </div>
                   </CardContent>
                 </Card>
               );
