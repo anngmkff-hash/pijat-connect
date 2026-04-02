@@ -37,8 +37,10 @@ const statusConfig: Record<string, { label: string; variant: "default" | "second
 const OrderHistory = () => {
   const { user } = useAuth();
   const { customerOrders, loadingOrders } = useBooking();
+  const { hasReview } = useReviews();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [reviewOrder, setReviewOrder] = useState<any>(null);
 
   const filteredOrders = customerOrders.filter((order) => {
     const svc = (order as any).services;
