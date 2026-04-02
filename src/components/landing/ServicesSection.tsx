@@ -1,4 +1,4 @@
-import { Flower2, Dumbbell, Baby, Heart, Sparkles, Leaf } from "lucide-react";
+import { Flower2, Dumbbell, Baby, Heart, Zap, Leaf } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const services = [
