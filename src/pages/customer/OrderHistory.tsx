@@ -265,6 +265,7 @@ const OrderHistory = () => {
                           </Link>
                         )}
                         </div>
+                    </div>
                   </CardContent>
                 </Card>
               );
