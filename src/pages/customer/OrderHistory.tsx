@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import { useAuth } from "@/contexts/AuthContext";
 import { useBooking } from "@/hooks/useBooking";
+import { useReviews } from "@/hooks/useReviews";
+import ReviewDialog from "@/components/customer/ReviewDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
