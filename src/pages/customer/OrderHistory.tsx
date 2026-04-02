@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import {
   Leaf, ArrowLeft, Clock, MapPin, CreditCard, Search,
   Filter, CalendarIcon, Loader2, PackageOpen, StickyNote,
-  CheckCircle2, XCircle, Truck, Timer, AlertCircle,
+  CheckCircle2, XCircle, Truck, Timer, AlertCircle, Star,
 } from "lucide-react";
 import {
   Select,
