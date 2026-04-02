@@ -273,6 +273,17 @@ const OrderHistory = () => {
           </div>
         )}
       </main>
+
+      {reviewOrder && (
+        <ReviewDialog
+          open={!!reviewOrder}
+          onOpenChange={(open) => !open && setReviewOrder(null)}
+          orderId={reviewOrder.id}
+          customerId={user!.id}
+          mitraId={reviewOrder.mitra_id}
+          serviceName={(reviewOrder as any).services?.name}
+        />
+      )}
     </div>
   );
 };
