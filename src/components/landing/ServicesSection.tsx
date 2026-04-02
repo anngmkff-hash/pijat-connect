@@ -1,4 +1,4 @@
-import { Flower2, Dumbbell, Baby, Heart, Sparkles, Leaf } from "lucide-react";
+import { Flower2, Dumbbell, Baby, Heart, Zap, Leaf } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const services = [
@@ -38,7 +38,7 @@ const services = [
     price: "Mulai Rp 120.000",
   },
   {
-    icon: Sparkles,
+    icon: Zap,
     title: "Deep Tissue",
     description: "Pijat intensif untuk mengatasi ketegangan otot kronis dan nyeri punggung.",
     duration: "60-90 menit",
