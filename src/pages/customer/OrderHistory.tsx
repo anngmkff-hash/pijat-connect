@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { id as idLocale } from "date-fns/locale";
 import { useAuth } from "@/contexts/AuthContext";
 import { useBooking } from "@/hooks/useBooking";
+import { useReviews } from "@/hooks/useReviews";
+import ReviewDialog from "@/components/customer/ReviewDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +15,7 @@ import { cn } from "@/lib/utils";
 import {
   Leaf, ArrowLeft, Clock, MapPin, CreditCard, Search,
   Filter, CalendarIcon, Loader2, PackageOpen, StickyNote,
-  CheckCircle2, XCircle, Truck, Timer, AlertCircle,
+  CheckCircle2, XCircle, Truck, Timer, AlertCircle, Star,
 } from "lucide-react";
 import {
   Select,
@@ -35,8 +37,10 @@ const statusConfig: Record<string, { label: string; variant: "default" | "second
 const OrderHistory = () => {
   const { user } = useAuth();
   const { customerOrders, loadingOrders } = useBooking();
+  const { hasReview } = useReviews();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [reviewOrder, setReviewOrder] = useState<any>(null);
 
   const filteredOrders = customerOrders.filter((order) => {
     const svc = (order as any).services;
@@ -241,6 +245,18 @@ const OrderHistory = () => {
                             </Button>
                           </Link>
                         )}
+                        {order.status === "completed" && !hasReview(order.id) && order.mitra_id && (
+                          <Button size="sm" variant="secondary" onClick={() => setReviewOrder(order)}>
+                            <Star className="h-4 w-4 mr-1.5" />
+                            Beri Review
+                          </Button>
+                        )}
+                        {order.status === "completed" && hasReview(order.id) && (
+                          <Badge variant="outline" className="flex items-center gap-1 text-amber-600">
+                            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                            Sudah Direview
+                          </Badge>
+                        )}
                         {order.status === "completed" && (
                           <Link to="/booking">
                             <Button size="sm" variant="outline">
@@ -248,7 +264,7 @@ const OrderHistory = () => {
                             </Button>
                           </Link>
                         )}
-                      </div>
+                        </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -257,6 +273,17 @@ const OrderHistory = () => {
           </div>
         )}
       </main>
+
+      {reviewOrder && (
+        <ReviewDialog
+          open={!!reviewOrder}
+          onOpenChange={(open) => !open && setReviewOrder(null)}
+          orderId={reviewOrder.id}
+          customerId={user!.id}
+          mitraId={reviewOrder.mitra_id}
+          serviceName={(reviewOrder as any).services?.name}
+        />
+      )}
     </div>
   );
 };
